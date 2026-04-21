@@ -226,6 +226,27 @@ const tooltipStyle = {
   itemStyle: { color: "white" },
 };
 
+const num = (value: unknown) => {
+  if (typeof value === "number") return value;
+  if (typeof value === "string") {
+    const parsed = Number(value);
+    return Number.isFinite(parsed) ? parsed : 0;
+  }
+  return 0;
+};
+
+const usdTooltipFormatter = (value: unknown, name?: unknown): [string, string] => {
+  return [`$${USD2.format(num(value))}bn`, String(name ?? "")];
+};
+
+const percentTooltipFormatter = (value: unknown, name?: unknown): [string, string] => {
+  return [`${num(value).toFixed(1)}%`, String(name ?? "")];
+};
+
+const impliedTooltipFormatter = (value: unknown): string => {
+  return `${num(value).toFixed(1)}%`;
+};
+
 function StatCard({ label, value, suffix = "", accent = "#ffffff", sub }: { label: string; value: string | number; suffix?: string; accent?: string; sub?: string }) {
   return (
     <div className="rounded-3xl border border-white/10 bg-white/5 p-5 shadow-2xl backdrop-blur-sm">
@@ -555,7 +576,7 @@ export default function YandexInteractivePresentation() {
                   <Pie data={segments2025} dataKey="revenueUsd" nameKey="name" innerRadius={74} outerRadius={122} paddingAngle={3} labelLine={false} label={renderPieLabel}>
                     {segments2025.map((s) => <Cell key={s.id} fill={s.color} stroke="rgba(255,255,255,0.9)" strokeWidth={2} />)}
                   </Pie>
-                  <Tooltip {...tooltipStyle} formatter={(v: number, _n: string, p: any) => [`$${USD2.format(v)}bn`, p?.payload?.name]} />
+                  <Tooltip {...tooltipStyle} formatter={(value, _name, p: any) => [`$${USD2.format(num(value))}bn`, String(p?.payload?.name ?? "")]} />
                 </PieChart>
               </ResponsiveContainer>
             </div>
@@ -650,7 +671,7 @@ export default function YandexInteractivePresentation() {
                       <CartesianGrid stroke="rgba(255,255,255,0.08)" vertical={false} />
                       <XAxis dataKey="year" stroke="rgba(255,255,255,0.45)" />
                       <YAxis stroke="rgba(255,255,255,0.45)" />
-                      <Tooltip {...tooltipStyle} formatter={(v: number, name: string) => [`$${USD2.format(v)}bn`, name === "revenueUsd" ? "Revenue" : "Adjusted EBITDA"]} />
+                      <Tooltip {...tooltipStyle} formatter={(value, name) => [`$${USD2.format(num(value))}bn`, name === "revenueUsd" ? "Revenue" : "Adjusted EBITDA"]} />
                       <Legend formatter={(value) => <span style={{ color: "rgba(255,255,255,0.75)" }}>{value === "revenueUsd" ? "Revenue" : "Adjusted EBITDA"}</span>} />
                       <Area type="monotone" dataKey="revenueUsd" stroke="#ffd21f" fillOpacity={1} fill="url(#revFill)" strokeWidth={3} />
                       <Area type="monotone" dataKey="ebitdaUsd" stroke="#22c55e" fillOpacity={1} fill="url(#ebitdaFill)" strokeWidth={3} />
@@ -668,7 +689,7 @@ export default function YandexInteractivePresentation() {
                       <CartesianGrid stroke="rgba(255,255,255,0.08)" vertical={false} />
                       <XAxis dataKey="year" stroke="rgba(255,255,255,0.45)" />
                       <YAxis stroke="rgba(255,255,255,0.45)" />
-                      <Tooltip {...tooltipStyle} formatter={(v: number, name: string) => [`${v.toFixed(1)}%`, name]} />
+                      <Tooltip {...tooltipStyle} formatter={percentTooltipFormatter} />
                       <Legend formatter={(value) => <span style={{ color: "rgba(255,255,255,0.75)" }}>{value}</span>} />
                       <Bar dataKey="margin" name="EBITDA margin" fill="#f59e0b" radius={[8, 8, 0, 0]} />
                       <Bar dataKey="revenueGrowth" name="Revenue growth" fill="#60a5fa" radius={[8, 8, 0, 0]} />
@@ -687,7 +708,7 @@ export default function YandexInteractivePresentation() {
                       <CartesianGrid stroke="rgba(255,255,255,0.08)" vertical={false} />
                       <XAxis dataKey="year" stroke="rgba(255,255,255,0.45)" />
                       <YAxis stroke="rgba(255,255,255,0.45)" />
-                      <Tooltip {...tooltipStyle} formatter={(v: number, name: string) => [`$${USD2.format(v)}bn`, name]} />
+                      <Tooltip {...tooltipStyle} formatter={usdTooltipFormatter} />
                       <Legend formatter={(value) => <span style={{ color: "rgba(255,255,255,0.75)" }}>{value}</span>} />
                       <Bar dataKey="Reported" fill="#60a5fa" radius={[8, 8, 0, 0]} />
                       <Bar dataKey="Adjusted" fill="#22c55e" radius={[8, 8, 0, 0]} />
@@ -794,7 +815,7 @@ export default function YandexInteractivePresentation() {
                   <CartesianGrid stroke="rgba(255,255,255,0.08)" />
                   <XAxis type="number" dataKey="x" name="ATO" domain={[1.5, 4.5]} stroke="rgba(255,255,255,0.45)" tickCount={7} />
                   <YAxis type="number" dataKey="y" name="PM" domain={[3, 15]} stroke="rgba(255,255,255,0.45)" tickCount={5} />
-                  <Tooltip {...tooltipStyle} formatter={(v: number, name: string) => [name === "x" ? `${v.toFixed(2)}x` : `${v.toFixed(1)}%`, name === "x" ? "ATO" : "PM"]} cursor={{ strokeDasharray: "4 4", stroke: "rgba(255,255,255,0.16)" }} />
+                  <Tooltip {...tooltipStyle} formatter={(value, name) => [name === "x" ? `${num(value).toFixed(2)}x` : `${num(value).toFixed(1)}%`, name === "x" ? "ATO" : "PM"]} cursor={{ strokeDasharray: "4 4", stroke: "rgba(255,255,255,0.16)" }} />
                   <ReferenceLine x={baseATO} stroke="rgba(148,163,184,0.65)" strokeDasharray="4 4" />
                   <ReferenceLine y={basePM} stroke="rgba(148,163,184,0.65)" strokeDasharray="4 4" />
                   <Scatter data={[{ x: ato, y: pm }]} fill={currentBasis.accent} />
@@ -837,7 +858,7 @@ export default function YandexInteractivePresentation() {
                     <CartesianGrid stroke="rgba(255,255,255,0.08)" horizontal={false} />
                     <XAxis type="number" stroke="rgba(255,255,255,0.45)" />
                     <YAxis type="category" dataKey="name" width={140} stroke="rgba(255,255,255,0.45)" />
-                    <Tooltip {...tooltipStyle} formatter={(v: number) => `$${USD2.format(v)}bn`} />
+                    <Tooltip {...tooltipStyle} formatter={(value) => `$${USD2.format(num(value))}bn`} />
                     <Bar dataKey="value" radius={[0, 12, 12, 0]}>{stackData.map((d) => <Cell key={d.name} fill={d.color} />)}</Bar>
                   </BarChart>
                 </ResponsiveContainer>
@@ -879,7 +900,7 @@ export default function YandexInteractivePresentation() {
               <ResponsiveContainer width="100%" height="100%">
                 <RadialBarChart innerRadius="55%" outerRadius="100%" data={impliedGauge} startAngle={180} endAngle={0}>
                   <RadialBar dataKey="value" cornerRadius={20} background />
-                  <Tooltip {...tooltipStyle} formatter={(v: number) => `${Number(v).toFixed(1)}%`} />
+                  <Tooltip {...tooltipStyle} formatter={impliedTooltipFormatter} />
                 </RadialBarChart>
               </ResponsiveContainer>
             </div>
