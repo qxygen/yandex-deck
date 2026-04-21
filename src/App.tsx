@@ -178,6 +178,24 @@ const segments2025 = [
   revenueUsd: toUsdBn(d.revenue),
 }));
 
+const segmentEbitdaMix = segments2025
+  .map((s) => {
+    const ebitdaRub = +(s.revenue * s.margin / 100).toFixed(1);
+    return {
+      ...s,
+      ebitdaRub,
+      ebitdaUsd: toUsdBn(ebitdaRub),
+    };
+  })
+  .sort((a, b) => b.ebitdaRub - a.ebitdaRub);
+
+const totalSegmentEbitdaRub = segmentEbitdaMix.reduce((sum, s) => sum + s.ebitdaRub, 0);
+
+const segmentEbitdaLegend = segmentEbitdaMix.map((s) => ({
+  ...s,
+  ebitdaShare: totalSegmentEbitdaRub > 0 ? +((s.ebitdaRub / totalSegmentEbitdaRub) * 100).toFixed(1) : 0,
+}));
+
 const ydexMonthlyData = [{"date":"2018-02-01","closeRub":2343.5,"volumeMn":1.64},{"date":"2018-03-01","closeRub":2287,"volumeMn":1.22},{"date":"2018-04-01","closeRub":2097.5,"volumeMn":3.61},{"date":"2018-05-01","closeRub":2076.5,"volumeMn":2.04},{"date":"2018-06-01","closeRub":2244,"volumeMn":2.12},{"date":"2018-07-01","closeRub":2250,"volumeMn":2.14},{"date":"2018-08-01","closeRub":2150,"volumeMn":2.51},{"date":"2018-09-01","closeRub":2160.5,"volumeMn":1.96},{"date":"2018-10-01","closeRub":1916.5,"volumeMn":14.36},{"date":"2018-11-01","closeRub":1965,"volumeMn":5.86},{"date":"2018-12-01","closeRub":1930,"volumeMn":3.7},{"date":"2019-01-01","closeRub":2212,"volumeMn":3.47},{"date":"2019-02-01","closeRub":2208,"volumeMn":5.9},{"date":"2019-03-01","closeRub":2293.6,"volumeMn":3.19},{"date":"2019-04-01","closeRub":2391,"volumeMn":3.31},{"date":"2019-05-01","closeRub":2336.6,"volumeMn":3.74},{"date":"2019-06-01","closeRub":2405.4,"volumeMn":3.48},{"date":"2019-07-01","closeRub":2490,"volumeMn":8.32},{"date":"2019-08-01","closeRub":2462.8,"volumeMn":5.27},{"date":"2019-09-01","closeRub":2263.4,"volumeMn":5.12},{"date":"2019-10-01","closeRub":2125.8,"volumeMn":29.11},{"date":"2019-11-01","closeRub":2693,"volumeMn":15.14},{"date":"2019-12-01","closeRub":2697,"volumeMn":7.34},{"date":"2020-01-01","closeRub":2873.4,"volumeMn":9.18},{"date":"2020-02-01","closeRub":2659.8,"volumeMn":17.12},{"date":"2020-03-01","closeRub":2714.4,"volumeMn":23.69},{"date":"2020-04-01","closeRub":2850.8,"volumeMn":16.97},{"date":"2020-05-01","closeRub":2833.2,"volumeMn":8.75},{"date":"2020-06-01","closeRub":3545.6,"volumeMn":13.77},{"date":"2020-07-01","closeRub":4257,"volumeMn":13.79},{"date":"2020-08-01","closeRub":5089.4,"volumeMn":60.22},{"date":"2020-09-01","closeRub":5062,"volumeMn":53.33},{"date":"2020-10-01","closeRub":4561,"volumeMn":25.13},{"date":"2020-11-01","closeRub":5278,"volumeMn":20.8},{"date":"2020-12-01","closeRub":5167,"volumeMn":13.53},{"date":"2021-01-01","closeRub":4760.6,"volumeMn":14.68},{"date":"2021-02-01","closeRub":4813.2,"volumeMn":18.38},{"date":"2021-03-01","closeRub":4859,"volumeMn":23.85},{"date":"2021-04-01","closeRub":4934.8,"volumeMn":23.95},{"date":"2021-05-01","closeRub":4942,"volumeMn":14.18},{"date":"2021-06-01","closeRub":5176.6,"volumeMn":11.65},{"date":"2021-07-01","closeRub":4970.4,"volumeMn":10.79},{"date":"2021-08-01","closeRub":5615,"volumeMn":9.85},{"date":"2021-09-01","closeRub":5804.6,"volumeMn":11.41},{"date":"2021-10-01","closeRub":5879.2,"volumeMn":13.67},{"date":"2021-11-01","closeRub":5359.4,"volumeMn":16.79},{"date":"2021-12-01","closeRub":4569.4,"volumeMn":20.23},{"date":"2022-01-01","closeRub":3717.6,"volumeMn":49.42},{"date":"2022-02-01","closeRub":1931.2,"volumeMn":86.38},{"date":"2022-03-01","closeRub":2259,"volumeMn":6.05},{"date":"2022-04-01","closeRub":1766.6,"volumeMn":19.51},{"date":"2022-05-01","closeRub":1567.8,"volumeMn":4.28},{"date":"2022-06-01","closeRub":1603.8,"volumeMn":10.12},{"date":"2022-07-01","closeRub":1952,"volumeMn":13.27},{"date":"2022-08-01","closeRub":2170.6,"volumeMn":13.13},{"date":"2022-09-01","closeRub":1877.6,"volumeMn":24.72},{"date":"2022-10-01","closeRub":2109,"volumeMn":17.54},{"date":"2022-11-01","closeRub":1996.6,"volumeMn":14.32},{"date":"2022-12-01","closeRub":1817.8,"volumeMn":8.86},{"date":"2023-01-01","closeRub":2047.2,"volumeMn":6.34},{"date":"2023-02-01","closeRub":2015,"volumeMn":11.56},{"date":"2023-03-01","closeRub":1901.6,"volumeMn":10.82},{"date":"2023-04-01","closeRub":2070.6,"volumeMn":13.85},{"date":"2023-05-01","closeRub":2324.2,"volumeMn":28.85},{"date":"2023-06-01","closeRub":2439.6,"volumeMn":23.84},{"date":"2023-07-01","closeRub":2635,"volumeMn":20.48},{"date":"2023-08-01","closeRub":2689,"volumeMn":26.28},{"date":"2023-09-01","closeRub":2402.2,"volumeMn":20.32},{"date":"2023-10-01","closeRub":2612,"volumeMn":25.84},{"date":"2023-11-01","closeRub":2523.4,"volumeMn":17.15},{"date":"2023-12-01","closeRub":2540,"volumeMn":33.06},{"date":"2024-01-01","closeRub":3026,"volumeMn":30.19},{"date":"2024-02-01","closeRub":3383,"volumeMn":68.83},{"date":"2024-03-01","closeRub":3994,"volumeMn":41.96},{"date":"2024-04-01","closeRub":4149.6,"volumeMn":23.68},{"date":"2024-05-01","closeRub":3996.8,"volumeMn":18.52},{"date":"2024-06-01","closeRub":4071.2,"volumeMn":3},{"date":"2024-07-01","closeRub":3892,"volumeMn":6.08},{"date":"2024-08-01","closeRub":3765,"volumeMn":39.11},{"date":"2024-09-01","closeRub":4007.5,"volumeMn":29.04},{"date":"2024-10-01","closeRub":3666.5,"volumeMn":16.53},{"date":"2024-11-01","closeRub":3320,"volumeMn":24.59},{"date":"2024-12-01","closeRub":3994,"volumeMn":26.34},{"date":"2025-01-01","closeRub":4092,"volumeMn":15.18},{"date":"2025-02-01","closeRub":4423,"volumeMn":23.23},{"date":"2025-03-01","closeRub":4476,"volumeMn":16.88},{"date":"2025-04-01","closeRub":4106,"volumeMn":21.18},{"date":"2025-05-01","closeRub":4172,"volumeMn":12.31},{"date":"2025-06-01","closeRub":4167,"volumeMn":13.5},{"date":"2025-07-01","closeRub":4181,"volumeMn":17.47},{"date":"2025-08-01","closeRub":4282.5,"volumeMn":12.95},{"date":"2025-09-01","closeRub":3926.5,"volumeMn":11.28},{"date":"2025-10-01","closeRub":3978.5,"volumeMn":17.92},{"date":"2025-11-01","closeRub":4185.5,"volumeMn":9.42},{"date":"2025-12-01","closeRub":4567,"volumeMn":13.05},{"date":"2026-01-01","closeRub":4735,"volumeMn":8.51},{"date":"2026-02-01","closeRub":4796,"volumeMn":10.71},{"date":"2026-03-01","closeRub":4237,"volumeMn":14.9},{"date":"2026-04-01","closeRub":4353.5,"volumeMn":10.35}];
 
 const usdRubMonthly = [{"date":"2017-02-01","usdRub":58.3058},{"date":"2017-03-01","usdRub":56.2665},{"date":"2017-04-01","usdRub":56.9311},{"date":"2017-05-01","usdRub":56.5617},{"date":"2017-06-01","usdRub":58.9401},{"date":"2017-07-01","usdRub":59.7719},{"date":"2017-08-01","usdRub":58.006},{"date":"2017-09-01","usdRub":57.4898},{"date":"2017-10-01","usdRub":58.3289},{"date":"2017-11-01","usdRub":58.438},{"date":"2017-12-01","usdRub":57.6114},{"date":"2018-01-01","usdRub":56.2075},{"date":"2018-02-01","usdRub":56.3291},{"date":"2018-03-01","usdRub":57.1444},{"date":"2018-04-01","usdRub":62.9408},{"date":"2018-05-01","usdRub":62.403},{"date":"2018-06-01","usdRub":62.7338},{"date":"2018-07-01","usdRub":62.5078},{"date":"2018-08-01","usdRub":67.5458},{"date":"2018-09-01","usdRub":65.5503},{"date":"2018-10-01","usdRub":65.8789},{"date":"2018-11-01","usdRub":66.951},{"date":"2018-12-01","usdRub":69.8319},{"date":"2019-01-01","usdRub":65.4103},{"date":"2019-02-01","usdRub":65.9151},{"date":"2019-03-01","usdRub":65.634},{"date":"2019-04-01","usdRub":64.6373},{"date":"2019-05-01","usdRub":65.4306},{"date":"2019-06-01","usdRub":63.2305},{"date":"2019-07-01","usdRub":63.6284},{"date":"2019-08-01","usdRub":66.7657},{"date":"2019-09-01","usdRub":64.8569},{"date":"2019-10-01","usdRub":64.1328},{"date":"2019-11-01","usdRub":64.3195},{"date":"2019-12-01","usdRub":61.9863},{"date":"2020-01-01","usdRub":63.9203},{"date":"2020-02-01","usdRub":66.8806},{"date":"2020-03-01","usdRub":78.4426},{"date":"2020-04-01","usdRub":74.3813},{"date":"2020-05-01","usdRub":70.1445},{"date":"2020-06-01","usdRub":71.1734},{"date":"2020-07-01","usdRub":74.4114},{"date":"2020-08-01","usdRub":74.0718},{"date":"2020-09-01","usdRub":77.6319},{"date":"2020-10-01","usdRub":79.5257},{"date":"2020-11-01","usdRub":76.4033},{"date":"2020-12-01","usdRub":74.4121},{"date":"2021-01-01","usdRub":75.7404},{"date":"2021-02-01","usdRub":74.6196},{"date":"2021-03-01","usdRub":75.6987},{"date":"2021-04-01","usdRub":75.2073},{"date":"2021-05-01","usdRub":73.4341},{"date":"2021-06-01","usdRub":73.1522},{"date":"2021-07-01","usdRub":73.1409},{"date":"2021-08-01","usdRub":73.2274},{"date":"2021-09-01","usdRub":72.7514},{"date":"2021-10-01","usdRub":70.9464},{"date":"2021-11-01","usdRub":74.0838},{"date":"2021-12-01","usdRub":74.6539},{"date":"2022-01-01","usdRub":77.3792},{"date":"2022-02-01","usdRub":94.6025},{"date":"2022-03-01","usdRub":83.2},{"date":"2022-04-01","usdRub":70.96},{"date":"2022-05-01","usdRub":61.5},{"date":"2022-06-01","usdRub":51.45},{"date":"2022-07-01","usdRub":61.62},{"date":"2022-08-01","usdRub":60.23},{"date":"2022-09-01","usdRub":58.45},{"date":"2022-10-01","usdRub":61.4775},{"date":"2022-11-01","usdRub":60.99},{"date":"2022-12-01","usdRub":69.9},{"date":"2023-01-01","usdRub":69.82},{"date":"2023-02-01","usdRub":74.97},{"date":"2023-03-01","usdRub":77.5975},{"date":"2023-04-01","usdRub":80.25},{"date":"2023-05-01","usdRub":81.1025},{"date":"2023-06-01","usdRub":89.55},{"date":"2023-07-01","usdRub":91.6025},{"date":"2023-08-01","usdRub":96.025},{"date":"2023-09-01","usdRub":97.9675},{"date":"2023-10-01","usdRub":93.4},{"date":"2023-11-01","usdRub":89.4525},{"date":"2023-12-01","usdRub":90.36},{"date":"2024-01-01","usdRub":90.0175},{"date":"2024-02-01","usdRub":91.15},{"date":"2024-03-01","usdRub":92.48},{"date":"2024-04-01","usdRub":93.0525},{"date":"2024-05-01","usdRub":90.1},{"date":"2024-06-01","usdRub":85.5332},{"date":"2024-07-01","usdRub":85.9988},{"date":"2024-08-01","usdRub":90.6509},{"date":"2024-09-01","usdRub":92.9955},{"date":"2024-10-01","usdRub":97.3705},{"date":"2024-11-01","usdRub":106.4955},{"date":"2024-12-01","usdRub":113.4955},{"date":"2025-01-01","usdRub":98.575},{"date":"2025-02-01","usdRub":89.375},{"date":"2025-03-01","usdRub":83},{"date":"2025-04-01","usdRub":82},{"date":"2025-05-01","usdRub":77.5},{"date":"2025-06-01","usdRub":78.2},{"date":"2025-07-01","usdRub":81.1},{"date":"2025-08-01","usdRub":79.9},{"date":"2025-09-01","usdRub":82.9},{"date":"2025-10-01","usdRub":80.8},{"date":"2025-11-01","usdRub":77.5},{"date":"2025-12-01","usdRub":78.75},{"date":"2026-01-01","usdRub":76},{"date":"2026-02-01","usdRub":77.3},{"date":"2026-03-01","usdRub":81.3},{"date":"2026-04-01","usdRub":74.76}];
@@ -1014,12 +1032,25 @@ const priceYearTicks = useMemo(() => {
   const slides = [
     <SlideContainer key="overview">
       <div className="grid flex-1 grid-cols-1 gap-8 xl:grid-cols-[1fr_1fr]">
-        <div className="space-y-8">
-          <SectionTitle
-            eyebrow="Business overview"
-            title="Yandex is a multi-vertical digital platform"
-            subtitle="The company combines a high-margin search business with logistics, media, subscription, and B2B technology activities. The investment question is not whether Yandex is relevant, but whether the wider ecosystem deserves more than the search engine alone."
-          />
+<div className="space-y-8">
+  <div className="flex items-start justify-between gap-6">
+    <SectionTitle
+      eyebrow="Business overview"
+      title="Yandex is a multi-vertical digital platform"
+      subtitle="The company combines a high-margin search business with logistics, media, subscription, and B2B technology activities. The investment question is not whether Yandex is relevant, but whether the wider ecosystem deserves more than the search engine alone."
+    />
+
+    <div className="hidden shrink-0 rounded-2xl border border-white/10 bg-white/5 p-3 text-center xl:block">
+      <img
+        src="/qr.jpg"
+        alt="QR code"
+        className="h-24 w-24 rounded-lg bg-white object-cover"
+      />
+      <div className="mt-2 text-[11px] uppercase tracking-[0.18em] text-white/45">
+        open deck
+      </div>
+    </div>
+  </div>
 
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             <div className="rounded-[2rem] border border-white/10 bg-white/5 p-6">
@@ -1076,6 +1107,8 @@ const priceYearTicks = useMemo(() => {
               </GlassButton>
             </div>
           </div>
+
+
 
           <div className="mt-5 rounded-3xl border border-white/10 bg-black/20 p-4">
             <div className="mb-3 flex items-center justify-between">
@@ -1160,76 +1193,93 @@ const priceYearTicks = useMemo(() => {
     </SlideContainer>,
 
     <SlideContainer key="structure">
-      <div className="grid flex-1 grid-cols-1 gap-8 lg:grid-cols-[0.95fr_1.05fr]">
-        <div className="space-y-8">
-          <SectionTitle
-            eyebrow="Business structure"
-            title="Different segments, different economics"
-            subtitle="Yandex is not one business. Search & AI is the core profit engine, while the rest of the ecosystem contributes scale, engagement and optionality with very different margin profiles."
-          />
+  <div className="grid flex-1 grid-cols-1 gap-8 lg:grid-cols-[0.95fr_1.05fr]">
+    <div className="space-y-8">
+      <SectionTitle
+        eyebrow="Business structure"
+        title="Different segments, different economics"
+        subtitle="Yandex is not one business. Search & AI is the core profit engine, while the rest of the ecosystem contributes scale, engagement and optionality with very different margin profiles."
+      />
 
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-            {segments2025.map((s) => (
-              <motion.button
-                key={s.id}
-                whileHover={{ y: -4, scale: 1.01 }}
-                onClick={() => setSelectedSegment(s.id)}
-                className={cn(
-                  "rounded-[1.75rem] border p-5 text-left transition",
-                  selectedSegment === s.id
-                    ? "border-white/25 bg-white/10 shadow-2xl"
-                    : "border-white/10 bg-white/5"
-                )}
-              >
-                <div className="flex items-start justify-between gap-4">
-                  <div>
-                    <div className="text-lg font-medium text-white">{s.name}</div>
-                    <div className="mt-2 text-sm text-white/60">{s.role}</div>
-                  </div>
-                  <div className="h-3 w-3 rounded-full" style={{ background: s.color }} />
-                </div>
-
-                <div className="mt-6 grid grid-cols-2 gap-4">
-                  <div>
-                    <div className="text-xs uppercase tracking-[0.2em] text-white/40">Revenue</div>
-                    <div className="mt-2 text-2xl font-semibold text-white">{fmtUsdBn(s.revenue)}</div>
-                  </div>
-                  <div>
-                    <div className="text-xs uppercase tracking-[0.2em] text-white/40">EBITDA margin</div>
-                    <div className="mt-2 text-2xl font-semibold text-white">{s.margin.toFixed(1)}%</div>
-                  </div>
-                </div>
-              </motion.button>
-            ))}
-          </div>
-        </div>
-
-        <div className="grid grid-rows-[minmax(0,1fr)_auto] gap-6 min-h-0">
-          <div className="rounded-[2rem] border border-white/10 bg-white/5 p-6">
-            <div className="mb-4 flex items-center gap-3 text-white/60">
-              <Boxes className="h-4 w-4" />
-              revenue mix
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+        {segments2025.map((s) => (
+          <motion.button
+            key={s.id}
+            whileHover={{ y: -4, scale: 1.01 }}
+            onClick={() => setSelectedSegment(s.id)}
+            className={cn(
+              "rounded-[1.75rem] border p-5 text-left transition",
+              selectedSegment === s.id
+                ? "border-white/25 bg-white/10 shadow-2xl"
+                : "border-white/10 bg-white/5"
+            )}
+          >
+            <div className="flex items-start justify-between gap-4">
+              <div>
+                <div className="text-lg font-medium text-white">{s.name}</div>
+                <div className="mt-2 text-sm text-white/60">{s.role}</div>
+              </div>
+              <div className="h-3 w-3 rounded-full" style={{ background: s.color }} />
             </div>
 
+            <div className="mt-6 grid grid-cols-2 gap-4">
+              <div>
+                <div className="text-xs uppercase tracking-[0.2em] text-white/40">Revenue</div>
+                <div className="mt-2 text-2xl font-semibold text-white">
+                  {fmtUsdBn(s.revenue)}
+                </div>
+              </div>
+              <div>
+                <div className="text-xs uppercase tracking-[0.2em] text-white/40">
+                  EBITDA margin
+                </div>
+                <div className="mt-2 text-2xl font-semibold text-white">
+                  {s.margin.toFixed(1)}%
+                </div>
+              </div>
+            </div>
+          </motion.button>
+        ))}
+      </div>
+    </div>
+
+    <div className="grid grid-rows-[minmax(0,1fr)_auto] gap-6 min-h-0">
+      <div className="rounded-[2rem] border border-white/10 bg-white/5 p-6">
+        <div className="mb-4 flex items-center gap-3 text-white/60">
+          <Boxes className="h-4 w-4" />
+          segment mix
+        </div>
+
+        <div className="grid grid-cols-1 gap-6 xl:grid-cols-2">
+          <div>
+            <div className="mb-3 text-sm text-white/55">Revenue mix</div>
             <LegendPills
-              items={segments2025.map((s) => ({ label: `${s.name} · ${s.share}%`, color: s.color }))}
+              items={segments2025.map((s) => ({
+                label: `${s.name} · ${s.share}%`,
+                color: s.color,
+              }))}
             />
 
-            <div className="mt-4 h-[340px]">
+            <div className="mt-4 h-[300px]">
               <ResponsiveContainer width="100%" height="100%">
-                <PieChart margin={{ top: 20, right: 110, bottom: 20, left: 110 }}>
+                <PieChart margin={{ top: 20, right: 90, bottom: 20, left: 90 }}>
                   <Pie
                     data={segments2025}
                     dataKey="revenueUsd"
                     nameKey="name"
-                    innerRadius={74}
-                    outerRadius={122}
+                    innerRadius={70}
+                    outerRadius={112}
                     paddingAngle={3}
                     labelLine={false}
                     label={renderPieLabel}
                   >
                     {segments2025.map((s) => (
-                      <Cell key={s.id} fill={s.color} stroke="rgba(255,255,255,0.9)" strokeWidth={2} />
+                      <Cell
+                        key={s.id}
+                        fill={s.color}
+                        stroke="rgba(255,255,255,0.9)"
+                        strokeWidth={2}
+                      />
                     ))}
                   </Pie>
                   <Tooltip
@@ -1244,43 +1294,93 @@ const priceYearTicks = useMemo(() => {
             </div>
           </div>
 
-          <div className="rounded-[2rem] border border-white/10 bg-black/20 p-5">
-            <div className="flex items-center justify-between gap-4">
-              <div>
-                <div className="text-sm text-white/55">Segment economics</div>
-                <div className="mt-2 text-2xl font-semibold text-white">{activeSegment.name}</div>
-              </div>
-              <div
-                className="rounded-full px-3 py-1 text-sm"
-                style={{ background: `${activeSegment.color}20`, color: activeSegment.color }}
-              >
-                {scenarios[scenario].label}
-              </div>
-            </div>
+          <div>
+            <div className="mb-3 text-sm text-white/55">EBITDA contribution mix</div>
+            <LegendPills
+              items={segmentEbitdaLegend.map((s) => ({
+                label: `${s.name} · ${s.ebitdaShare}%`,
+                color: s.color,
+              }))}
+            />
 
-            <div className="mt-4 text-sm leading-7 text-white/70">{activeSegment.thesis}</div>
-
-            <div className="mt-5 grid grid-cols-3 gap-3">
-              {(["bear", "base", "bull"] as ScenarioKey[]).map((key) => (
-                <div
-                  key={key}
-                  className={cn(
-                    "rounded-2xl border p-3",
-                    scenario === key ? "border-white/25 bg-white/10" : "border-white/10 bg-white/5"
-                  )}
-                >
-                  <div className="text-xs uppercase tracking-[0.2em] text-white/45">{key}</div>
-                  <div className="mt-2 text-xl font-semibold text-white">
-                    {activeSegment.scenarioMargins[key].toFixed(1)}%
-                  </div>
-                </div>
-              ))}
+            <div className="mt-4 h-[300px]">
+              <ResponsiveContainer width="100%" height="100%">
+                <PieChart margin={{ top: 20, right: 90, bottom: 20, left: 90 }}>
+                  <Pie
+                    data={segmentEbitdaMix}
+                    dataKey="ebitdaUsd"
+                    nameKey="name"
+                    innerRadius={70}
+                    outerRadius={112}
+                    paddingAngle={3}
+                    labelLine={false}
+                    label={renderPieLabel}
+                  >
+                    {segmentEbitdaMix.map((s) => (
+                      <Cell
+                        key={s.id}
+                        fill={s.color}
+                        stroke="rgba(255,255,255,0.9)"
+                        strokeWidth={2}
+                      />
+                    ))}
+                  </Pie>
+                  <Tooltip
+                    {...tooltipStyle}
+                    formatter={(value, _name, p: any) => [
+                      `$${USD2.format(num(value))}bn`,
+                      String(p?.payload?.name ?? ""),
+                    ]}
+                  />
+                </PieChart>
+              </ResponsiveContainer>
             </div>
           </div>
         </div>
       </div>
-    </SlideContainer>,
 
+      <div className="rounded-[2rem] border border-white/10 bg-black/20 p-5">
+        <div className="flex items-center justify-between gap-4">
+          <div>
+            <div className="text-sm text-white/55">Segment economics</div>
+            <div className="mt-2 text-2xl font-semibold text-white">{activeSegment.name}</div>
+          </div>
+          <div
+            className="rounded-full px-3 py-1 text-sm"
+            style={{ background: `${activeSegment.color}20`, color: activeSegment.color }}
+          >
+            {scenarios[scenario].label}
+          </div>
+        </div>
+
+        <div className="mt-4 text-sm leading-7 text-white/70">
+          {activeSegment.thesis}
+        </div>
+
+        <div className="mt-5 grid grid-cols-3 gap-3">
+          {(["bear", "base", "bull"] as ScenarioKey[]).map((key) => (
+            <div
+              key={key}
+              className={cn(
+                "rounded-2xl border p-3",
+                scenario === key
+                  ? "border-white/25 bg-white/10"
+                  : "border-white/10 bg-white/5"
+              )}
+            >
+              <div className="text-xs uppercase tracking-[0.2em] text-white/45">
+                {key}
+              </div>
+              <div className="mt-2 text-xl font-semibold text-white">
+                {activeSegment.scenarioMargins[key].toFixed(1)}%
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+</SlideContainer>,
     <SlideContainer key="framing">
       <div className="grid flex-1 grid-cols-1 gap-8 lg:grid-cols-[1.15fr_0.85fr]">
         <div className="flex flex-col justify-between gap-8">
