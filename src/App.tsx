@@ -542,10 +542,7 @@ const slideMeta = [
   { key: "appendix", title: "P.S. Explorer" },
 ];
 
-const yearTick = (value: string) => {
-  const dt = new Date(value);
-  return dt.getMonth() === 0 ? String(dt.getFullYear()) : "";
-};
+
 
 function cn(...classes: (string | false | undefined)[]) {
   return classes.filter(Boolean).join(" ");
@@ -976,8 +973,18 @@ export default function YandexInteractivePresentation() {
       }),
     [usdRubLookup]
   );
+const priceYearTicks = useMemo(() => {
+  const ticks = ydexChartData
+    .filter((d, i, arr) => {
+      const dt = new Date(d.date);
+      return dt.getMonth() === 0 || i === 0 || i === arr.length - 1;
+    })
+    .map((d) => d.date);
 
-  const activePriceKey = priceView === "usd" ? "closeUsd" : "closeRub";
+  return Array.from(new Set(ticks));
+}, [ydexChartData]);
+
+
   const activePriceLabel = priceView === "usd" ? "Price (USD)" : "Price (RUB)";
   const activePricePrefix = priceView === "usd" ? "$" : "₽";
 
@@ -1082,7 +1089,7 @@ export default function YandexInteractivePresentation() {
 
             <div className="h-[280px]">
               <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={ydexChartData}>
+                <AreaChart key={priceView} data={ydexChartData}>
                   <defs>
                     <linearGradient id="priceFillBright" x1="0" y1="0" x2="0" y2="1">
                       <stop offset="5%" stopColor="#ffe45c" stopOpacity={0.55} />
@@ -1091,26 +1098,30 @@ export default function YandexInteractivePresentation() {
                     </linearGradient>
                   </defs>
                   <CartesianGrid stroke="rgba(255,255,255,0.08)" vertical={false} />
-                  <XAxis
-                    dataKey="date"
-                    tickFormatter={yearTick}
-                    minTickGap={28}
-                    interval="preserveStartEnd"
-                    stroke="rgba(255,255,255,0.5)"
-                  />
-                  <YAxis stroke="rgba(255,255,255,0.5)" />
+<XAxis
+  dataKey="date"
+  ticks={priceYearTicks}
+  tickFormatter={(value) => String(new Date(value).getFullYear())}
+  stroke="rgba(255,255,255,0.5)"
+/>
+<YAxis
+  stroke="rgba(255,255,255,0.5)"
+  tickFormatter={(value) =>
+    `${priceView === "usd" ? "$" : "₽"}${Math.round(num(value))}`
+  }
+/>
                   <Tooltip
                     {...tooltipStyle}
                     formatter={(value) => [`${activePricePrefix}${USD2.format(num(value))}`, activePriceLabel]}
                     labelFormatter={(label) => String(label)}
                   />
                   <Area
-                    type="monotone"
-                    dataKey={activePriceKey}
-                    stroke="#ffe45c"
-                    fill="url(#priceFillBright)"
-                    strokeWidth={3.5}
-                  />
+  type="monotone"
+  dataKey={priceView === "usd" ? "closeUsd" : "closeRub"}
+  stroke={priceView === "usd" ? "#ffe45c" : "#ffb347"}
+  fill="url(#priceFillBright)"
+  strokeWidth={3.5}
+/>
                 </AreaChart>
               </ResponsiveContainer>
             </div>
@@ -1127,14 +1138,12 @@ export default function YandexInteractivePresentation() {
                       </linearGradient>
                     </defs>
                     <CartesianGrid stroke="rgba(255,255,255,0.06)" vertical={false} />
-                    <XAxis
-                      dataKey="date"
-                      tickFormatter={yearTick}
-                      minTickGap={28}
-                      interval="preserveStartEnd"
-                      stroke="rgba(255,255,255,0.5)"
-                    />
-                    <YAxis stroke="rgba(255,255,255,0.5)" />
+<XAxis
+  dataKey="date"
+  ticks={priceYearTicks}
+  tickFormatter={(value) => String(new Date(value).getFullYear())}
+  stroke="rgba(255,255,255,0.5)"
+/>
                     <Tooltip
                       {...tooltipStyle}
                       formatter={(value) => [`${num(value).toFixed(2)}m`, "Volume"]}
