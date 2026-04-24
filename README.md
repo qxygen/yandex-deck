@@ -1,73 +1,101 @@
-# React + TypeScript + Vite
+# Yandex Valuation Deck
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Interactive presentation on **Yandex (YDEX)** built in **React + TypeScript + Vite**.
 
-Currently, two official plugins are available:
+The deck presents a full equity-analysis narrative built around:
+- business overview
+- segment structure
+- profitability and growth
+- earnings quality
+- reformulated statements
+- residual earnings valuation
+- market-implied expectations
+- final investment view
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+The current investment conclusion in the deck is **Wait** under the default **hybrid earnings lens**.
 
-## React Compiler
+---
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## What this project is
 
-## Expanding the ESLint configuration
+This repository contains a standalone interactive presentation designed for:
+- class presentation
+- discussion with an investment-committee style audience
+- scenario-based valuation walkthrough
+- visual explanation of the logic behind the Yandex thesis
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+It is **not** a production investment tool and should be treated as an academic / analytical presentation.
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+---
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## Presentation structure
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+The deck is organized as a sequence of slides:
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+1. **Business overview**  
+   What Yandex does, why it is worth analyzing, and long-term stock-price context.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+2. **Business structure**  
+   Segment mix, revenue contribution, EBITDA contribution, and segment economics.
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+3. **Investment framing**  
+   Why the stock looks different under reported, hybrid, and adjusted earnings bases.
+
+4. **Financial momentum**  
+   Revenue scale, operating leverage, margins, growth, and earnings quality trends.
+
+5. **Earnings quality**  
+   Reported → Hybrid → Adjusted bridge and the logic of the hybrid earnings base.
+
+6. **Reformulated statements**  
+   Operating assets, operating liabilities, financing assets, financing liabilities, NOA, and net financing debt.
+
+7. **Profitability engine**  
+   PM × ATO → RNOA → residual operating income.
+
+8. **Residual earnings valuation**  
+   Bear / base / bull valuation logic, no-growth anchor, and speculative premium.
+
+9. **Market expectations**  
+   Implied growth rate under reported, hybrid, and adjusted earnings lenses.
+
+10. **Recommendation**  
+    Final investment view and margin-of-safety logic.
+
+11. **Appendix / explorer**  
+    Additional reformulation and classification logic for Q&A.
+
+---
+
+## Core thesis
+
+The deck argues that Yandex is a strong multi-vertical digital platform with a clear economic anchor in **Search & AI**, while the broader ecosystem adds scale and optionality. The main analytical question is whether the non-search businesses can sustain margin improvement over time.
+
+The presentation therefore compares three earnings lenses:
+
+- **Reported**
+- **Hybrid**
+- **Adjusted**
+
+The **hybrid** lens is the working bridge between noisy reported earnings and more generous management-style adjustments.
+
+---
+
+## Tech stack
+
+- **React**
+- **TypeScript**
+- **Vite**
+- **Tailwind CSS**
+- **Framer Motion**
+- **Recharts**
+- **Lucide React**
+
+---
+
+## Run locally
+
+### 1. Install dependencies
+
+```bash
+npm install
