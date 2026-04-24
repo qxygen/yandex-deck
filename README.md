@@ -72,7 +72,6 @@ The deck is organized as a sequence of slides:
 The deck argues that Yandex is a strong multi-vertical digital platform with a clear economic anchor in **Search & AI**, while the broader ecosystem adds scale and optionality. The main analytical question is whether the non-search businesses can sustain margin improvement over time.
 
 The presentation therefore compares three earnings lenses:
-
 - **Reported**
 - **Hybrid**
 - **Adjusted**
@@ -99,3 +98,141 @@ The **hybrid** lens is the working bridge between noisy reported earnings and mo
 
 ```bash
 npm install
+```
+
+### 2. Start development server
+
+```bash
+npm run dev
+```
+
+Then open the local URL shown in the terminal.
+
+### 3. Build for production
+
+```bash
+npm run build
+```
+
+### 4. Preview production build
+
+```bash
+npm run preview
+```
+
+---
+
+## Deployment
+
+This project can be deployed easily on **Vercel**.
+
+### Recommended settings
+- Framework preset: **Vite**
+- Build command: `npm run build`
+- Output directory: `dist`
+
+If deploying from GitHub:
+1. Push the repository to GitHub
+2. Import the repo into Vercel
+3. Keep the default Vite settings
+4. Deploy
+
+---
+
+## Presentation controls
+
+Keyboard navigation is built into the deck.
+
+### Navigation
+- `→` / `PageDown` — next slide
+- `←` / `PageUp` — previous slide
+- numeric keys — jump directly to a slide  
+  Example: press `1` then `0` to jump to slide 10
+
+### In-slide interaction
+Some slides contain:
+- basis switches
+- scenario buttons
+- chart mode switches
+- valuation assumption sliders
+
+These are designed for live presentation and Q&A.
+
+---
+
+## Data and valuation conventions
+
+The deck is based on the valuation framework developed for the Yandex project and uses a fixed market snapshot and embedded presentation assumptions.
+
+The repo version should therefore be treated as a **presentation artifact**, not as a live market dashboard.
+
+---
+
+## Earnings bases used in the deck
+
+### Reported
+Pure IFRS-based earnings.
+
+### Hybrid
+Analytical earnings base:
+- removes obvious FX and one-off noise
+- keeps SBC as a real economic expense
+- serves as the main working valuation lens
+
+### Adjusted
+Management-style cleaner earnings base with broader add-backs.
+
+---
+
+## Valuation logic
+
+The presentation relies primarily on **residual earnings valuation** and **implied-growth analysis**.
+
+Key ideas:
+- start from book value
+- add residual earnings
+- separate **anchored value** from **speculative value**
+- compare what the stock implies under different earnings lenses
+
+---
+
+## Notes on interpretation
+
+This deck is intentionally selective. It is designed to communicate:
+- how the business works
+- where the economic engine sits
+- how accounting choices affect valuation
+- why the final view is **Wait**, not automatically **Buy**
+
+The goal is not to show every possible metric, but to present a coherent argument.
+
+---
+
+## Repository contents
+
+Typical contents include:
+- `src/App.tsx` — main presentation logic
+- `public/` — static assets such as QR code or images
+- `package.json` — project dependencies and scripts
+- Vite / TypeScript config files
+- generated report and Excel model stored separately
+
+---
+
+## Usage recommendation
+
+For live presentation:
+1. Run the deck locally or deploy to Vercel
+2. Open in full-screen mode
+3. Use keyboard shortcuts for navigation
+4. Use valuation and basis controls only when needed
+5. Keep the appendix slide for Q&A rather than the main flow
+
+---
+
+## Disclaimer
+
+This repository was created for academic analysis and presentation purposes.  
+It does not constitute investment advice, portfolio advice, or a recommendation to buy or sell securities.
+
+---
